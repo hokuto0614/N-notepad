@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 閲覧画面、メモの編集と削除ができるようにボタンを追加 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFD5D5D5"
+    tools:context=".MainActivity" >
+
+    <!-- メモのタイトルをセットする場所-->
+    <TextView
+        android:id="@+id/showTitle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp" />
+
+    <!-- メモの内容をセットする場所 -->
+    <TextView
+        android:id="@+id/showMemo"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/showTitle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="100dp" />
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_title" />
+
+    <TextView
+        android:id="@+id/textView_title2"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/showTitle"
+        android:layout_marginTop="0dp"
+        android:text="@string/show_memo" />
+
+    <!-- メモの削除ボタン -->
+    <Button
+        android:id="@+id/deleteMemoButton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/delete_memo" />
+
+    <!-- メモの編集ボタン -->
+    <Button
+        android:id="@+id/editMemoButton"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/edit_memo" />
+
+    <Button
+        android:id="@+id/backToMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/back_list" />
+
+
+</RelativeLayout>

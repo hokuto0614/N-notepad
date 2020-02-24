@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/editMemoTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/show_title"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/editMemoContent"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_below="@+id/editMemoTitle"
+        android:layout_marginTop="24dp"
+        android:gravity="top|left"
+        android:hint="@string/show_memo"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/saveMemoButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/cancelMemoButton"
+        android:layout_width="204dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/cancel" />
+
+</RelativeLayout>
