@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">N-notepad</string>
     <!-- activity_main.xml -->
-    <string name="add_memo">新規作成</string>
+    <string name="add_memo">新規作成を行うよ</string>
     <!-- activity_show.xml -->
     <string name="show_title">タイトル</string>
     <string name="show_memo">内容</string>
