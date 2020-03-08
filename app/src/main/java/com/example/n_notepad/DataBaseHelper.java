@@ -3,34 +3,34 @@ package com.example.n_notepad;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    // データベース名
-    static final private String DBName = "NEdit_DB";
-
     // データベースのバージョン(2,3と挙げていくとonUpgradeメソッドが実行される)
-    static final private int VERSION = 1;
+    static final private int DATABASE_VERSION = 1;
 
-    // コンストラクタ　以下のように呼ぶこと
-    public DataBaseHelper(Context context){
-        super(context, DBName, null, VERSION);
+    private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + FeedReaderContract.FeedEntry.TABLE_NAME + " (" +
+                    FeedReaderContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE + " TEXT," +
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_BODY + " TEXT)";
+
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
+
+    public DataBaseHelper(Context context) {
+        super(context, FeedReaderContract.FeedEntry.DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // データベースが作成された時に実行される処理
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /**
-         * テーブルを作成する
-         * execSQLメソッドにCREATET TABLE命令を文字列として渡すことで実行される
-         * 引数で指定されているものの意味は以下の通り
-         * 引数1 ・・・ id：列名 , INTEGER：数値型 , PRIMATY KEY：テーブル内の行で重複無し , AUTOINCREMENT：1から順番に振っていく
-         * 引数2 ・・・ uuid：列名 , TEXT：文字列型
-         * 引数3 ・・・ title：列名 , TEXT：文字列型
-         * 引数4 ・・・ body：列名 , TEXT：文字列型
-         */
-        db.execSQL("CREATE TABLE MEMO_TABLE (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "uuid TEXT, " + "title TEXT, " + "body TEXT)");
+        // テーブル作成
+        // SQLiteファイルがなければSQLiteファイルが作成される
+        db.execSQL(
+                SQL_CREATE_ENTRIES
+        );
+        Log.d("debug", "onCreate(SQLiteDatabase db)");
     }
 
     // データベースをバージョンアップした時に実行される処理
@@ -39,15 +39,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         /**
          * テーブルを削除する
          */
-        db.execSQL("DROP TABLE IF EXISTS MEMO_TABLE");
-
+        db.execSQL(SQL_DELETE_ENTRIES);
         // 新しくテーブルを作成する
         onCreate(db);
     }
 
-    // データベースが開かれた時に実行される処理
     @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
     }
 }
