@@ -12,12 +12,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditActivity extends AppCompatActivity {
+public class EditNewActivity extends AppCompatActivity {
     private EditText editMemoTitle,editMemoBody;
     private DataBaseHelper helper;
     private SQLiteDatabase db;
-    // 新規作成フラグ
-    boolean newFlag = false;
     String id;
     String title;
     String body;
@@ -27,54 +25,6 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        // データベースから値を取得する
-        if(helper == null){
-            helper = new DataBaseHelper(EditActivity.this);
-        }
-
-        Intent intent = this.getIntent();
-        // idを取得
-        int getId = intent.getIntExtra("_id",0);
-        id = String.valueOf(getId);
-        // 画面に表示
-        if(id.equals("0")){
-            // 新規作成の場合
-            newFlag = true;
-        }else {
-            // 編集の場合 データベースから値を取得して表示
-            // データベースを取得する
-            SQLiteDatabase db = helper.getWritableDatabase();
-            try {
-                // rawQueryというSELECT専用メソッドを使用してデータを取得する
-                String[] projection = {
-                        BaseColumns._ID,
-                        FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
-                        FeedReaderContract.FeedEntry.COLUMN_NAME_BODY
-                };
-                // IDをキーにしてSELECTを行う
-                String selection = BaseColumns._ID + " = ?";
-                String[] selectionArgs = { id };
-
-                Cursor cursor = db.query(
-                        FeedReaderContract.FeedEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        null
-                );
-                while(cursor.moveToNext()) {
-                    // DBから取得したtitle,bodyをStringに変換
-                    title = cursor.getString(1);
-                    body = cursor.getString(2);
-                }
-            } finally {
-                // finallyは、tryの中で例外が発生した時でも必ず実行される
-                // dbを開いたら確実にclose
-                db.close();
-            }
-        }
         // title、bodyの値を画面に表示させるための処理
         editMemoTitle = (EditText) findViewById(R.id.editMemoTitle);
         editMemoBody = (EditText) findViewById(R.id.editMemoBody);
@@ -88,7 +38,7 @@ public class EditActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                Intent intent = new Intent(EditNewActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -116,7 +66,7 @@ public class EditActivity extends AppCompatActivity {
                 insertData(db, sendTitle, sendBody);
 
                 // トップページに遷移
-                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                Intent intent = new Intent(EditNewActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -127,19 +77,7 @@ public class EditActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY, body);
-        if (newFlag) {
-            // 新規作成の場合
-            db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
-        }else{
-            // 更新登録の場合
-            String selection = BaseColumns._ID + " = ?";
-            String[] selectionArgs = { id };
-
-            db.update(
-                    FeedReaderContract.FeedEntry.TABLE_NAME,
-                    values,
-                    selection,
-                    selectionArgs);
-        }
+        // 新規作成
+        db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
     }
 }

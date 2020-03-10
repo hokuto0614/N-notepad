@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +45,7 @@ public class ShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 編集画面に遷移する
-                Intent intent = new Intent(ShowActivity.this, EditActivity.class);
+                Intent intent = new Intent(ShowActivity.this, EditUploadActivity.class);
                 // 編集画面にてDBをIDで検索するため引き継がせる。
                 intent.putExtra("_id", id);
                 startActivity(intent);
