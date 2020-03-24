@@ -25,18 +25,19 @@ public class EditUploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        // データベースから値を取得する
+        Intent intent = this.getIntent();
+        // idを取得
+        int getId = intent.getIntExtra("_id",0);
+        id = String.valueOf(getId);
 
+        // データベースから値を取得する
         if(helper == null){
             helper = new DataBaseHelper(EditUploadActivity.this);
         }
         if(db == null){
             db = helper.getWritableDatabase();
         }
-        Intent intent = this.getIntent();
-        // idを取得
-        int getId = intent.getIntExtra("_id",0);
-        id = String.valueOf(getId);
+
         // 画面に表示
         // 編集の場合 データベースから値を取得して表示
         // データベースを取得する
@@ -84,14 +85,8 @@ public class EditUploadActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                editMemoTitle = (EditText) findViewById(R.id.editMemoTitle);
-//                editMemoBody = (EditText) findViewById(R.id.editMemoBody);
-//                editMemoTitle.setText(title);
-//                editMemoBody.setText(body);
                 Intent intent = new Intent(EditUploadActivity.this, ShowActivity.class);
-//                intent.putExtra("_id", id);
-//                intent.putExtra("title", title);
-//                intent.putExtra("body", body);
+                intent.putExtra("_id", id);
                 startActivity(intent);
             }
         });

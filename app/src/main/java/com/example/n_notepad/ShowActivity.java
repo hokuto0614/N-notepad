@@ -12,22 +12,68 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ShowActivity extends AppCompatActivity {
     TextView viewTitle,viewBody;
-    int id =0;
-    String title ="";
-    String body = "";
     private DataBaseHelper helper;
     private SQLiteDatabase db;
+    String id;
+    String title;
+    String body;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
-        // mainActivityから受け取った値を取得
-        Intent intent = getIntent();
-        id = intent.getIntExtra("_id",0);
-        title = intent.getStringExtra("title");
-        body = intent.getStringExtra("body");
+        Intent intent = this.getIntent();
+        // idを取得
+        int getId = intent.getIntExtra("_id",0);
+        id = String.valueOf(getId);
+
+        /*
+        *todo 受け取ったIDでDBからtitle,bodyをセレクトする。
+        */
+        // データベースから値を取得する
+
+        if(helper == null){
+            helper = new DataBaseHelper(EditUploadActivity.this);
+        }
+        if(db == null){
+            db = helper.getWritableDatabase();
+        }
+
+        // 画面に表示
+        // 編集の場合 データベースから値を取得して表示
+        // データベースを取得する
+        try {
+            // rawQueryというSELECT専用メソッドを使用してデータを取得する
+            String[] projection = {
+                    BaseColumns._ID,
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_BODY
+            };
+            // IDをキーにしてSELECTを行う
+            String selection = BaseColumns._ID + " = ?";
+            String[] selectionArgs = { id };
+
+            Cursor cursor = db.query(
+                    FeedReaderContract.FeedEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+            while(cursor.moveToNext()) {
+                // DBから取得したtitle,bodyをStringに変換
+                title = cursor.getString(1);
+                body = cursor.getString(2);
+            }
+        } finally {
+            // finallyは、tryの中で例外が発生した時でも必ず実行される
+            // dbを開いたら確実にclose
+            db.close();
+        }
+
 
         // 画面に表示させる
         viewTitle = findViewById(R.id.showTitle);

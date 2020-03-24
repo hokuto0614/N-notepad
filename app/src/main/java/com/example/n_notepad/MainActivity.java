@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     // リストに表示させる、編集の時に渡すタイトルのリスト
     ArrayList titleList = new ArrayList();
     // 編集画面に渡すbodyのリスト
-    ArrayList bodyList = new ArrayList();
+    // ArrayList bodyList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     // DBからメモのリストを取得
-    private Map<Integer, Map<String, String>> getMemoMap() {
+    private Map<Integer,String> getMemoMap() {
         // 返却用のMAP
-        Map<Integer, Map<String, String>> getMemoMap = new HashMap<>();
+        // Map<Integer, Map<String, String>> getMemoMap = new HashMap<>();
+        Map<Integer,String> getMemoMap = new HashMap<>();
 
         // DBから取得する値
         String[] projection = {
                 BaseColumns._ID,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_BODY
+                // FeedReaderContract.FeedEntry.COLUMN_NAME_BODY
         };
 
         //DBを参照しリストを作成
@@ -84,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
             );
             // DB取得したした値を格納する
             while(cursor.moveToNext()) {
-                HashMap<String,String> map = new HashMap<>();
+                // HashMap<String,String> map = new HashMap<>();
                 int itemId = cursor.getInt(
                         cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry._ID));
                 String getTitle = cursor.getString(1);
-                String getBody = cursor.getString(2);
-                map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,getTitle);
-                map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY,getBody);
-                getMemoMap.put(itemId,map);
+                // String getBody = cursor.getString(2);
+                // map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,getTitle);
+                // map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY,getBody);
+                getMemoMap.put(itemId,getTitle);
             }
         } finally {
             // dbを開いたら確実にclose
@@ -106,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
 
         // showActivityにインテントする値をそれぞれListに格納する。
-        for(Map.Entry<Integer,Map<String, String>>showMap : memoMap.entrySet()){
+        for(Map.Entry<Integer,String>showMap : memoMap.entrySet()){
             idList.add(showMap.getKey());
             titleList.add(showMap.getValue().get(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE));
-            bodyList.add(showMap.getValue().get(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY));
+            // bodyList.add(showMap.getValue().get(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY));
         }
         //　リストの作成
         ArrayAdapter arrayAdapter =
@@ -123,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
                 int sendId = (int) idList.get(position);
                 String sendTitle = (String) titleList.get(position);
-                String sendBody = (String) bodyList.get(position);
+                // String sendBody = (String) bodyList.get(position);
 
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
                 // 各値をインテントに格納。
                 intent.putExtra("_id", sendId);
-                intent.putExtra("title", sendTitle);
-                intent.putExtra("body", sendBody);
+                // intent.putExtra("title", sendTitle);
+                // intent.putExtra("body", sendBody);
                 startActivity(intent);
             }
         });
