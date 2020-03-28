@@ -31,10 +31,18 @@ public class EditNewActivity extends AppCompatActivity {
         editMemoTitle.setText(title);
         editMemoBody.setText(body);
 
-        Button cancelButton = findViewById(R.id.cancelMemoButton);
-        Button saveButton = findViewById(R.id.saveMemoButton);
+        //キャンセルボタン
+        backToMain();
 
-        //キャンセルボタン押下時処理
+        //保存ボタン
+        saveMemo();
+
+    }
+
+
+    //キャンセルボタン押下時処理
+    private void backToMain(){
+        Button cancelButton = findViewById(R.id.cancelMemoButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,8 +50,11 @@ public class EditNewActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        //保存ボタン押下時処理
+    //保存ボタン押下時処理
+    private void saveMemo(){
+        Button saveButton = findViewById(R.id.saveMemoButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +82,7 @@ public class EditNewActivity extends AppCompatActivity {
             }
         });
     }
+
     // DBへの登録処理
     private void insertData(SQLiteDatabase db, String title, String body){
 
@@ -78,6 +90,10 @@ public class EditNewActivity extends AppCompatActivity {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY, body);
         // 新規作成
-        db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
+        db.insert(
+                FeedReaderContract.FeedEntry.TABLE_NAME,
+                null,
+                values
+        );
     }
 }

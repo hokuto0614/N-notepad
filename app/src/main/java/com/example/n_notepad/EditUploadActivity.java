@@ -25,10 +25,23 @@ public class EditUploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        //Title, Bodyの表示
+        showMemo();
+
+        //キャンセルボタン
+        backToShow();
+
+        //保存ボタン
+        saveMemo();
+
+    }
+
+    
+    //Title, Bodyの表示処理
+    private void showMemo() {
         Intent intent = this.getIntent();
         // idを取得
-        int getId = intent.getIntExtra("_id",0);
-        id = String.valueOf(getId);
+        id = intent.getStringExtra("_id");
 
         // データベースから値を取得する
         if(helper == null){
@@ -39,7 +52,6 @@ public class EditUploadActivity extends AppCompatActivity {
         }
 
         // 画面に表示
-        // 編集の場合 データベースから値を取得して表示
         // データベースを取得する
         try {
             // rawQueryというSELECT専用メソッドを使用してデータを取得する
@@ -77,28 +89,32 @@ public class EditUploadActivity extends AppCompatActivity {
         editMemoBody = (EditText) findViewById(R.id.editMemoBody);
         editMemoTitle.setText(title);
         editMemoBody.setText(body);
+    }
 
+    //キャンセルボタン押下時処理
+    private void backToShow() {
         Button cancelButton = findViewById(R.id.cancelMemoButton);
-        Button saveButton = findViewById(R.id.saveMemoButton);
-
         //キャンセルボタン押下時処理
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditUploadActivity.this, ShowActivity.class);
-                intent.putExtra("_id", id);
+                int sendId = Integer.parseInt(id);
+                intent.putExtra("_id", sendId);
                 startActivity(intent);
             }
         });
+    }
 
-        //保存ボタン押下時処理
+    //保存ボタン押下時処理
+    private void saveMemo() {
+        Button saveButton = findViewById(R.id.saveMemoButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //DBを参照しリストを作成
                 if(helper == null){
                     helper = new DataBaseHelper(getApplicationContext());
-
                 }
                 db = helper.getWritableDatabase();
                 // 画面の入力を取得
@@ -117,6 +133,7 @@ public class EditUploadActivity extends AppCompatActivity {
             }
         });
     }
+
     // DBへの登録処理
     private void insertData(SQLiteDatabase db, String title, String body){
 
@@ -131,6 +148,7 @@ public class EditUploadActivity extends AppCompatActivity {
                 FeedReaderContract.FeedEntry.TABLE_NAME,
                 values,
                 selection,
-                selectionArgs);
+                selectionArgs
+        );
     }
 }

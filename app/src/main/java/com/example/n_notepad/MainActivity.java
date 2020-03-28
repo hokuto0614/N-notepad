@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList idList = new ArrayList();
     // リストに表示させる、編集の時に渡すタイトルのリスト
     ArrayList titleList = new ArrayList();
-    // 編集画面に渡すbodyのリスト
-    // ArrayList bodyList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // メモのデータを格納する変数
-        Map<Integer, Map<String, String>> memoMap = new HashMap<>();
+        Map<Integer, String> memoMap = new HashMap<>();
 
         // DBから取得したメモを格納
         memoMap = getMemoMap();
@@ -85,13 +83,9 @@ public class MainActivity extends AppCompatActivity {
             );
             // DB取得したした値を格納する
             while(cursor.moveToNext()) {
-                // HashMap<String,String> map = new HashMap<>();
                 int itemId = cursor.getInt(
                         cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry._ID));
                 String getTitle = cursor.getString(1);
-                // String getBody = cursor.getString(2);
-                // map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,getTitle);
-                // map.put(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY,getBody);
                 getMemoMap.put(itemId,getTitle);
             }
         } finally {
@@ -102,15 +96,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //リストを表示させる処理
-    private void showList(Map<Integer, Map<String, String>> memoMap) {
+    private void showList(Map<Integer, String> memoMap) {
 
         ListView listView = (ListView)findViewById(R.id.listView);
 
         // showActivityにインテントする値をそれぞれListに格納する。
         for(Map.Entry<Integer,String>showMap : memoMap.entrySet()){
             idList.add(showMap.getKey());
-            titleList.add(showMap.getValue().get(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE));
-            // bodyList.add(showMap.getValue().get(FeedReaderContract.FeedEntry.COLUMN_NAME_BODY));
+            titleList.add(showMap.getValue());
         }
         //　リストの作成
         ArrayAdapter arrayAdapter =
@@ -124,13 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
                 int sendId = (int) idList.get(position);
                 String sendTitle = (String) titleList.get(position);
-                // String sendBody = (String) bodyList.get(position);
 
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
                 // 各値をインテントに格納。
                 intent.putExtra("_id", sendId);
-                // intent.putExtra("title", sendTitle);
-                // intent.putExtra("body", sendBody);
                 startActivity(intent);
             }
         });
