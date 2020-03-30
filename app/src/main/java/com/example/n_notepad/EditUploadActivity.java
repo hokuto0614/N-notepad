@@ -32,7 +32,7 @@ public class EditUploadActivity extends AppCompatActivity {
         showMemo();
 
         //キャンセルボタン
-        backToShow();
+        cancel();
 
         //保存ボタン
         saveMemo();
@@ -97,7 +97,7 @@ public class EditUploadActivity extends AppCompatActivity {
     }
 
     //キャンセルボタン押下時処理
-    private void backToShow() {
+    private void cancel() {
         Button cancelButton = findViewById(R.id.cancelMemoButton);
         //キャンセルボタン押下時処理
         cancelButton.setOnClickListener(new View.OnClickListener() {

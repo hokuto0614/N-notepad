@@ -29,7 +29,7 @@ public class EditNewActivity extends AppCompatActivity {
         showMemo();
 
         //キャンセルボタン
-        backToMain();
+        cancel();
 
         //保存ボタン
         saveMemo();
@@ -45,7 +45,7 @@ public class EditNewActivity extends AppCompatActivity {
     }
 
     //キャンセルボタン押下時処理
-    private void backToMain(){
+    private void cancel(){
         Button cancelButton = findViewById(R.id.cancelMemoButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
