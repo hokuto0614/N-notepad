@@ -25,11 +25,8 @@ public class EditNewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        // title、bodyの値を画面に表示させるための処理
-        editMemoTitle = (EditText) findViewById(R.id.editMemoTitle);
-        editMemoBody = (EditText) findViewById(R.id.editMemoBody);
-        editMemoTitle.setText(title);
-        editMemoBody.setText(body);
+        //Title,Bodyの表示 
+        showMemo();
 
         //キャンセルボタン
         backToMain();
@@ -39,6 +36,13 @@ public class EditNewActivity extends AppCompatActivity {
 
     }
 
+    // title、bodyの値を画面に表示させるための処理
+    private void showMemo(){
+        editMemoTitle = (EditText) findViewById(R.id.editMemoTitle);
+        editMemoBody = (EditText) findViewById(R.id.editMemoBody);
+        editMemoTitle.setText(title);
+        editMemoBody.setText(body);
+    }
 
     //キャンセルボタン押下時処理
     private void backToMain(){

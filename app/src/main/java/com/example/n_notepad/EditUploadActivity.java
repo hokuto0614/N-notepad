@@ -25,6 +25,9 @@ public class EditUploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        //Title, Bodyの取得
+        getMemo();
+
         //Title, Bodyの表示
         showMemo();
 
@@ -37,8 +40,8 @@ public class EditUploadActivity extends AppCompatActivity {
     }
 
     
-    //Title, Bodyの表示処理
-    private void showMemo() {
+    //Title, Bodyの取得処理
+    private void getMemo() {
         Intent intent = this.getIntent();
         // idを取得
         id = intent.getStringExtra("_id");
@@ -83,8 +86,10 @@ public class EditUploadActivity extends AppCompatActivity {
             // dbを開いたら確実にclose
             db.close();
         }
+    }
 
-        // title、bodyの値を画面に表示させるための処理
+    //取得したTitle,Bodyの表示 
+    private void showMemo() {
         editMemoTitle = (EditText) findViewById(R.id.editMemoTitle);
         editMemoBody = (EditText) findViewById(R.id.editMemoBody);
         editMemoTitle.setText(title);

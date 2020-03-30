@@ -24,6 +24,9 @@ public class ShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
+        //Title, Bodyの取得
+        getMemo();
+
         //Title, Bodyの表示
         showMemo();
 
@@ -38,8 +41,8 @@ public class ShowActivity extends AppCompatActivity {
     }
     
 
-    //Title, Bodyの表示処理
-    private void showMemo() {
+    //Title, Bodyの取得処理
+    private void getMemo() {
         Intent intent = this.getIntent();
         // idを取得
         int getId = intent.getIntExtra("_id",0);
@@ -85,8 +88,10 @@ public class ShowActivity extends AppCompatActivity {
             // dbを開いたら確実にclose
             db.close();
         }
+    }
 
-        // 画面に表示させる
+    //取得したTitle,Bodyの表示 
+    private void showMemo(){
         viewTitle = findViewById(R.id.showTitle);
         viewBody = findViewById(R.id.showBody);
         viewTitle.setText(title);
