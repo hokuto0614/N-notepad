@@ -34,7 +34,7 @@ public class ShowActivity extends AppCompatActivity {
         deleteMemo();
 
         //一覧へ戻るボタン
-        backToMain();
+        cancel();
     }
     
 
@@ -138,7 +138,7 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     //一覧へ戻るボタン押下時処理
-    private void backToMain() {
+    private void cancel() {
         Button backButton = findViewById(R.id.backToMain);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
